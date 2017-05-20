@@ -92,9 +92,9 @@ module.exports = function(app){
             where: {
                 id: req.params.id
             },
-            include: [db.Contribution, db.Art]
+            include: [db.Contribution]
         }).then(function(data) {
-            console.log(data)
+
             res.render("story", {story: data});
             });
         });
@@ -116,9 +116,9 @@ module.exports = function(app){
                 username: req.body.username,
                 password: bCrypt.hashSync(req.body.password)
             }).then(function(user){
-                passport.authenticate('local'), function(req, res) {
-                    console.log("Succesfully signed in.");
-                }
+                passport.authenticate("local", {failureRedirect:"/signup", successRedirect: "/signup"})(req, res, next)
+                return done(null, user);
+
             })
             } else {
                 res.send("user exists");
@@ -142,15 +142,15 @@ module.exports = function(app){
     });
 
     //CREATE CONTRIBUTION
+
     app.post("/api/new/contribution/:id", function(req, res) {
-        passport.serializeUser(function(user, cb) {
-            db.Contribution.create({
-                contribution_text: req.body.contribution_text,
-                UserId: user.id,
-                StoryId: req.params.id
-            }).then(function(results) {
-                res.redirect("/");
-            });
+        db.Contribution.create({
+            contribution_text: req.body.contribution_text,
+            // req.user.id gets the user id serialized in the passport session
+            UserId: req.user.id,
+            StoryId: req.params.id
+        }).then(function(results) {
+            res.redirect("/story/"+results.StoryId);
         });
     });
 
@@ -159,7 +159,6 @@ module.exports = function(app){
     app.post("/api/new/art", upload.single('fileupload'), function (req, res, next) {
     // req.file is the `fileupload` file 
     // req.body will hold the text fields, if there were any   
-       console.log('req.body: ',req.body);
        var fileName = "img-Story"+req.body.StoryId+"-Contrib"+req.body.ContributionId+"."+req.file.mimetype.split("/")[1];
        console.log(req.file);
         fsImpl.writeFile(fileName, req.file.buffer, "binary", function (err) {
@@ -174,8 +173,7 @@ module.exports = function(app){
         });
     });
  
-
-     app.get("/contributor/:id", function(req, res) {
+     app.get("/api/contributor/:id", function(req, res) {
         db.User.findOne({
             where: {
                 id: req.params.id
@@ -184,7 +182,20 @@ module.exports = function(app){
      
             res.json({name:results.username})
         });
-    });
+    });    
+ 
+ // route for fetching art for contributions
+     app.get("/api/art/:id", function(req, res) {
+        console.log('THIS ID',req.params.id);
+        db.Art.findOne({
+            where: {
+                ContributionId: req.params.id
+            }
+        }).then(function(results) {
+            //console.log('ART SEARCH:',results);
+            res.json({url:results.art_file})
+        });
+    });   
 
    //ADD RANK
     // app.put("/:id", function(req, res) {

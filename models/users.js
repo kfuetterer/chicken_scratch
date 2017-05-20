@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
         }
       },
       password: { type: DataTypes.STRING },
-      salt: { type: DataTypes.STRING }
+      salt: {type: DataTypes.STRING }
     },
     { 
       classMethods: {
