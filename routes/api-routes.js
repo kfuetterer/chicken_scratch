@@ -143,12 +143,14 @@ module.exports = function(app){
 
     //CREATE CONTRIBUTION
     app.post("/api/new/contribution/:id", function(req, res) {
-        db.Contribution.create({
-            contribution_text: req.body.contribution_text,
-            UserId: req.body.userId,
-            StoryId: req.params.id
-        }).then(function(results) {
-            res.redirect("/");
+        passport.serializeUser(function(user, cb) {
+            db.Contribution.create({
+                contribution_text: req.body.contribution_text,
+                UserId: user.id,
+                StoryId: req.params.id
+            }).then(function(results) {
+                res.redirect("/");
+            });
         });
     });
 
