@@ -16,18 +16,32 @@
             <h2 class="title">{{story.title}}</h2>
             {{#each story.Contributions}}
                 <div class="row contribution_wrapper">
-                    <div class="col-lg-2 metadata" data-id="{{this.UserId}}"> 
-                       
+                    <div class="col-lg-2 metadata" data-id="{{this.UserId}}">
                     </div><!-- end metadata column-->
                     <div class="panel panel-default">
-                      
                         <div class="panel-body col-lg-10 contribution" data-contribution="{{this.id}}">
-                        
                             {{this.contribution_text}}
-
-                             <button type="button" class="submitArt btn btn-secondary btn-sm" data-toggle="modal" data-target="#artModal" data-story-id="{{this.StoryId}}" data-contribution-id="{{this.id}}">Contribute Art</button>
-                        </div><!-- end contribution column --> 
-                    
+                            <form>
+                                <div class="rating">
+                                    <label>☆
+                                    <input type="radio" name="starValue" value="5" />
+                                    </label>
+                                    <label>☆
+                                    <input type="radio" name="starValue" value="4" />
+                                    </label>
+                                    <label>☆
+                                    <input type="radio" name="starValue" value="3" />
+                                    </label>
+                                    <label>☆
+                                    <input type="radio" name="starValue" value="2" />
+                                    </label>
+                                    <label>☆
+                                    <input type="radio" name="starValue" value="1" />
+                                    </label>
+                                </div>
+                            </form>
+                            <button type="button" class="submitArt btn btn-secondary btn-sm" data-toggle="modal" data-target="#artModal" data-story-id="{{this.StoryId}}" data-contribution-id="{{this.id}}">Contribute Art</button>
+                        </div>
                     </div> 
                 </div> <!-- end contribution row -->
             {{/each}}

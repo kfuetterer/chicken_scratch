@@ -4,7 +4,7 @@ var db = require("../models");
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var bCrypt = require('bcrypt-nodejs');
-
+ 
 // set up for image uploading
 // multer helps with multipart files (ie, images)
 var multer = require('multer');
@@ -211,21 +211,40 @@ module.exports = function(app){
         });
     });   
 
-   //ADD RANK
-    // app.put("/:id", function(req, res) {
-    //     db.Contribution.update({
-    //         rank: req.body.rank
-    //     }).then(function(results) {
-    //         res.redirect("/");
-    //     });
-    // });
+    //UPDATE RANK
+    app.put("/api/new/storyrating/:id", function(req, res) {
+        db.Story.update(
+            {
+                rank: req.body.starValue
+            },
+            {
+                where: { 
+                    id: req.params.id 
+                }
+            }
+        ).then(function(results) {
+            res.redirect("/");
+        });
+    });
 
-    // //ADD RANK
-    // app.put("/:id", function(req, res) {
-    //     db.Art.update({
-    //         rank: req.body.rank
-    //     }).then(function(results) {
-    //         res.redirect("/");
-    //     })
-    //});
+    app.put("/api/new/contributionrating/:id", function(req, res) {
+        var rank = 0;
+        if (req.body.star1) {
+            rank = 1;
+        } else if (req.body.star2) {
+            rank = 2;
+        } else if (req.body.star3) {
+            rank = 3;
+        } else if (req.body.star4) {
+            rank = 4;
+        } else if (req.body.star5) {
+            rank = 5;
+        }
+
+        db.Contribution.update({
+            rank: rank
+        }).then(function(results) {
+            res.redirect("/");
+        })
+    });
 }

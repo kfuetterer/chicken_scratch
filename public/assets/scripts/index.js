@@ -14,5 +14,12 @@ $(document).ready(function(){
         }); // end coverart ajax request  
     }); // end updateCoverThumbs function
 
+    $('label').click(function() {
+        $('label').removeClass('active');
+        $(this).addClass('active');
+        $.put("/api/new/storyrating/" + $(".story_blurb_art").attr("data-story-id"), function(results) {
+            console.log(results);
+        });
+    });
 }) // end doc ready
     

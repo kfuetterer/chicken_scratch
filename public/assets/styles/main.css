@@ -1,3 +1,20 @@
+.rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  text-align: right;
+}
+.rating > label {
+  display: inline-block;
+  position: relative;
+  padding: 0px 20px 0px 0px;
+  width: 1.1em;
+}
+.rating > label:hover:before,
+.rating > label:hover ~ label:before {
+   content: "\2605";
+   position: absolute;
+}
+  
   .fade.in #contributeModal #artModal {
     background-image: url(../media/1.jpg);
     padding: 200px;

@@ -21,7 +21,27 @@
 
             <div class="story-panel panel">
                 <div class="panel panel-header">
-                    <h2 id="title">{{this.title}}</h2>
+                    <h2 id="title">{{this.title}}
+                            <form>
+                                <div class="rating">
+                                    <label>☆
+                                    <input type="radio" name="starValue" value="1" style="display:none" />
+                                    </label>
+                                    <label>☆
+                                    <input type="radio" name="starValue" value="2" style="display:none"/>
+                                    </label>
+                                    <label>☆
+                                    <input type="radio" name="starValue" value="3" style="display:none"/>
+                                    </label>
+                                    <label>☆
+                                    <input type="radio" name="starValue" value="4" style="display:none"/>
+                                    </label>
+                                    <label>☆
+                                    <input type="radio" name="starValue" value="5" style="display:none"/>
+                                    </label>
+                                </div>
+                            </form>
+                    </h2>
                 </div>
 
                 <div class="story_blurb" class="panel panel-body">
@@ -30,8 +50,9 @@
                             <img class="story_blurb_art" data-story-id="{{this.id}}" src="https://s3.amazonaws.com/chickenscratchdb/default_cover.jpg" style="margin: 0 0 0 10px;" width="100%"/>
                         </div>
                         <div class="col-lg-9 col-xs-12">
-                            {{this.blurb}} <span id="contributorCount">Contributions: {{this.Contributions.length}}</span></p>
+                            <p>{{this.blurb}} <span id="contributorCount">Contributions: {{this.Contributions.length}}</span></p>
                         </div>
+
                    </div>
                     <div class="panel-footer">
                     <a href="/story/{{this.id}}">
