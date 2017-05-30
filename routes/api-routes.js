@@ -211,8 +211,19 @@ module.exports = function(app){
         });
     });   
 
+    app.get("/api/storyrating/:id", function(req, res) {
+        db.Story.findOne({
+            where: { 
+                id: req.params.id 
+            }
+        }).then(function(results) {
+            //var overallRank = results.rank/results.rank.length
+            //res.json({rank:results.rank})
+        });
+    });
+
     //UPDATE RANK
-    app.put("/api/new/storyrating/:id", function(req, res) {
+    app.get("/api/new/storyrating/:id", function(req, res) {
         db.Story.update(
             {
                 rank: req.body.starValue
@@ -223,7 +234,7 @@ module.exports = function(app){
                 }
             }
         ).then(function(results) {
-            res.redirect("/");
+            res.json({rank:results.rank})
         });
     });
 

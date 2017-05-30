@@ -14,10 +14,17 @@ $(document).ready(function(){
         }); // end coverart ajax request  
     }); // end updateCoverThumbs function
 
+    $.get("/api/storyrating/" + $(".story_blurb_art").attr("data-story-id"), function(results) {
+        console.log(results);
+        if (results === 1) {
+            $('label').addClass('active');
+        }
+    });
+
     $('label').click(function() {
         $('label').removeClass('active');
         $(this).addClass('active');
-        $.put("/api/new/storyrating/" + $(".story_blurb_art").attr("data-story-id"), function(results) {
+        $.get("/api/new/storyrating/" + $(".story_blurb_art").attr("data-story-id"), function(results) {
             console.log(results);
         });
     });
